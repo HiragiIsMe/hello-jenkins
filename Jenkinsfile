@@ -2,24 +2,16 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Install Dependencies') {
+        stage('Clone Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/HiragiIsMe/hello-jenkins.git'
             }
         }
 
-        stage('Laravel Setup') {
+        stage('Run Script') {
             steps {
                 sh 'echo Hello from Jenkins'
             }
         }
-
-        stage('Run Laravel Server') {
-            steps {
-                sh 'php artisan serve --host=0.0.0.0 --port=9090 &'
-            }
-        }
-
     }
 }
