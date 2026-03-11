@@ -2,16 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repo') {
+
+        stage('Install Dependencies') {
             steps {
-                git 'https://github.com/USERNAME/hello-jenkins.git'
+                sh 'composer install'
             }
         }
 
-        stage('Run Script') {
+        stage('Laravel Setup') {
             steps {
-                sh 'bash script.sh'
+                sh 'cp .env.example .env'
+                sh 'php artisan key:generate'
             }
         }
+
+        stage('Run Laravel Server') {
+            steps {
+                sh 'php artisan serve --host=0.0.0.0 --port=8000 &'
+            }
+        }
+
     }
 }
