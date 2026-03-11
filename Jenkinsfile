@@ -5,14 +5,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'composer install'
+                git branch: 'main', url: 'https://github.com/HiragiIsMe/hello-jenkins.git'
             }
         }
 
         stage('Laravel Setup') {
             steps {
-                sh 'cp .env.example .env'
-                sh 'php artisan key:generate'
+                sh 'echo Hello from Jenkins'
             }
         }
 
