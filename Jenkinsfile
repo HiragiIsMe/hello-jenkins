@@ -2,16 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repo') {
+
+        stage('Build Docker Image') {
             steps {
-                git branch: 'main', url: 'https://github.com/HiragiIsMe/hello-jenkins.git'
+                sh 'docker build -t laravel-app .'
             }
         }
 
-        stage('Run Script') {
+        stage('Run Container') {
             steps {
-                sh 'echo Hello from Jenkins'
+                sh 'docker stop laravel-app || true'
+                sh 'docker rm laravel-app || true'
+                sh 'docker run -d -p 9090:8000 --name laravel-app laravel-app'
             }
         }
+
     }
 }
